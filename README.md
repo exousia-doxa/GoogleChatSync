@@ -28,11 +28,11 @@ The diagrams below illustrate user assignment principles:
 
 **Standard User Assignment**:
 
-![](C:\Users\u1-1461\Downloads\org_chart_1.png)
+![org_chart_1](https://github.com/user-attachments/assets/793befb1-c83f-42ee-90fc-66980fd0a7b2)
 
 **Tree Traversal Role Assignment**:
 
-![](C:\Users\u1-1461\Downloads\org_chart_2.png)
+![org_chart_2](https://github.com/user-attachments/assets/cb337d76-be1b-48d6-8f32-ad8fe15c0080)
 
 ---
 
