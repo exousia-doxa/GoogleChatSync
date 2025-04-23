@@ -68,3 +68,21 @@ This section covers prerequisites and usage of the "GoogleChatSync" program. Cod
   "TREE_TRAVERSAL_ROLE_ID": "0000000000000000",
   "OU_ROOT_PATH": "/Company"
 }
+```
+
+### Logs
+
+| Log Message | Description |
+|-------------|-------------|
+| `"Request failed \| type: {type}, url: {url}, response: {response.text}"` | Failed API request with error code and response body. |
+| `"Request error \| type: {type}, url: {url}, response: {response}"` | Failed API request with exception details. |
+| `"Clear map for OU: {ou_id}"` | OU entry removed due to absence in Workspace. |
+| `"Failed creating space {displayName}: {response.text}"` | Space creation failed with error details. |
+| `"Error creating space {displayName}: {str(e)}"` | Space creation exception. |
+| `"Failed updating space {name}: {response.text}"` | Space update failed with error details. |
+| `"Error updating space {name}: {str(e)}"` | Space update exception. |
+| `"Failed adding user {member_id} to space {space_name}: {response.text}"` | User addition to Space failed. |
+| `"Error adding user {member_id}: {str(e)}"` | User addition exception. |
+| `"Failed removing user {member_id} from space {space_name}: {response.text}"` | User removal from Space failed. |
+| `"Error removing user {member_id}: {str(e)}"` | User removal exception. |
+| `"Invalid data for OU ID {ou_id}: skipping."` | Incomplete OU entry skipped. |
