@@ -349,33 +349,36 @@ def request_ou_space_members(orgUnitPath, name):
 
 # Run the update and sync process
 if __name__ == "__main__":
-    # Update OU and Space map
-    ou_response = create_session(60, session, "get",'https://admin.googleapis.com/admin/directory/v1/customer/my_customer/orgunits', params={"type": "all"})
-    space_response = create_session(60, session, "get",'https://chat.googleapis.com/v1/spaces')
+    try:
+        # Update OU and Space map
+        ou_response = create_session(60, session, "get",'https://admin.googleapis.com/admin/directory/v1/customer/my_customer/orgunits', params={"type": "all"})
+        space_response = create_session(60, session, "get",'https://chat.googleapis.com/v1/spaces')
 
-    ou_space_map = load_ou_space_map()
+        ou_space_map = load_ou_space_map()
 
-    ou_array = ou_response.json().get('organizationUnits', [])
-    space_array = space_response.json().get('spaces', [])
+        ou_array = ou_response.json().get('organizationUnits', [])
+        space_array = space_response.json().get('spaces', [])
 
-    ou_array.append({
-        "orgUnitId": "root",
-        "orgUnitPath": OU_ROOT_PATH
-    })
-    clear_ou_space_map(ou_space_map, ou_array)
-    edit_spaces(ou_array, space_array, ou_space_map)
+        ou_array.append({
+            "orgUnitId": "root",
+            "orgUnitPath": OU_ROOT_PATH
+        })
+        clear_ou_space_map(ou_space_map, ou_array)
+        edit_spaces(ou_array, space_array, ou_space_map)
 
-    save_ou_space_map(ou_space_map)
+        save_ou_space_map(ou_space_map)
 
-    # Sync OU and Space members
-    ou_space_map = load_ou_space_map()
-    for ou_id, data in ou_space_map.items():
-        orgUnitPath = data.get("orgUnitPath")
-        name = data.get("name")
+        # Sync OU and Space members
+        ou_space_map = load_ou_space_map()
+        for ou_id, data in ou_space_map.items():
+            orgUnitPath = data.get("orgUnitPath")
+            name = data.get("name")
 
-        if not orgUnitPath or not name:
-            log_error(f"Invalid data for OU ID {ou_id}: skipping.")
-            continue
+            if not orgUnitPath or not name:
+                log_error(f"Invalid data for OU ID {ou_id}: skipping.")
+                continue
 
-        ou_members, space_members = request_ou_space_members(orgUnitPath, name)
-        sync_ou_space_membership(ou_members, space_members, name)
+            ou_members, space_members = request_ou_space_members(orgUnitPath, name)
+            sync_ou_space_membership(ou_members, space_members, name)
+    except Exception as e:
+        log_error(f"Error in main process: {str(e)}")
