@@ -1,4 +1,5 @@
 import logging
+import sys
 import time
 from datetime import datetime
 from google.oauth2 import service_account
@@ -188,6 +189,7 @@ def request_create_space(displayName: str):
             log_error(f"Failed creating space {displayName}: {response.text}")
     except Exception as e:
         log_error(f"Error creating space {displayName}: {str(e)}")
+        sys.exit(1)
 
 # Update existing Google Chat space name
 # Input:
@@ -209,6 +211,7 @@ def request_update_space(name: str, displayName: str):
             log_error(f"Failed updating space {name}: {response.text}")
     except Exception as e:
         log_error(f"Error updating space {name}: {str(e)}")
+        sys.exit(1)
 
 # Synchronize membership between OU and Space
 # Input:
@@ -253,6 +256,7 @@ def request_add_membership(member_id, space_name):
             log_error(f"Failed adding user {member_id} to space {space_name}: {response.text}")
     except Exception as e:
         log_error(f"Error adding user {member_id}: {str(e)}")
+        sys.exit(1)
 
 # Remove user from Google Chat space
 # Input:
@@ -272,6 +276,7 @@ def request_remove_membership(member_id, space_name):
             log_error(f"Failed removing user {member_id} from space {space_name}: {response.text}")
     except Exception as e:
         log_error(f"Error removing user {member_id}: {str(e)}")
+        sys.exit(1)
 
 # Retrieve members from OU and corresponding Space
 # Input:
@@ -321,6 +326,7 @@ def request_ou_space_members(orgUnitPath, name):
                 break
     except Exception as e:
         log_error(f"Error reading members from OU {orgUnitPath}: {str(e)}")
+        sys.exit(1)
 
     try:
         page_token = None
@@ -344,6 +350,7 @@ def request_ou_space_members(orgUnitPath, name):
                 break
     except Exception as e:
         log_error(f"Error reading members from space {name}: {str(e)}")
+        sys.exit(1)
 
     return ou_members, space_members
 
@@ -382,3 +389,4 @@ if __name__ == "__main__":
             sync_ou_space_membership(ou_members, space_members, name)
     except Exception as e:
         log_error(f"Error in main process: {str(e)}")
+        sys.exit(1)
