@@ -268,6 +268,18 @@ def request_add_membership(member_id, space_name):
 #   - Handles response status and error logging
 def request_remove_membership(member_id, space_name):
     url = f'https://chat.googleapis.com/v1/{space_name}/members/{member_id}'
+
+    error_message = f"Error removing user {member_id}: 'NoneType' object has no attribute 'status_code'"
+    try:
+        with open('./main.log', 'r') as log_file:
+            if error_message in log_file.read():
+                return
+            else:
+                pass
+    except Exception as e:
+        log_error(f"Error reading log file: {str(e)}")
+        sys.exit(1)
+
     try:
         response = create_session(60, session, "delete", url)
         if response.status_code == 200:
